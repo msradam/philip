@@ -1,0 +1,7 @@
+%% A minimal 2-state pipeline with start, work, and end pseudo-states.
+%% Adapted from the JakeSteam cheatsheet's "direction LR" sample.
+stateDiagram-v2
+    direction LR
+    [*] --> SimpleState: Transition text
+    SimpleState --> s1: Also transition text
+    s1 --> [*]

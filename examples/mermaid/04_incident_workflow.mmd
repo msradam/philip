@@ -1,0 +1,42 @@
+%% Production-shaped SRE incident response workflow.
+%% Demonstrates: yaml frontmatter, multi-inbound states, retry loops,
+%% _choice-keyed branching, and a cyclical workflow (PostmortemAnalysis
+%% loops back to Idle for the next incident).
+---
+config:
+  layout: elk
+---
+stateDiagram-v2
+    [*] --> Idle
+
+    Idle --> MonitoringAlert: Alert Received
+    Idle --> IncidentReview: Manual Trigger
+
+    MonitoringAlert --> IncidentAnalysis: Analyze Metrics
+    IncidentReview --> IncidentAnalysis: Review Triggered
+
+    IncidentAnalysis --> DiagnosisInProgress: Gathering Data
+
+    DiagnosisInProgress --> RootCauseIdentified: Root Cause Found
+    DiagnosisInProgress --> EscalateToTeam: Unable to Diagnose
+
+    RootCauseIdentified --> RemediationPlanning: Planning Fix
+
+    RemediationPlanning --> ExecutingFix: Deploy Remediation
+    RemediationPlanning --> ManualReview: Complex Issue
+
+    ExecutingFix --> VerifyingResolution: Monitor Fix
+    ManualReview --> EscalateToTeam: Needs Expert Review
+
+    VerifyingResolution --> Resolved: Issue Fixed
+    VerifyingResolution --> RollbackNeeded: Fix Failed
+
+    RollbackNeeded --> ExecutingFix: Retry
+    RollbackNeeded --> EscalateToTeam: Rollback Complete
+
+    Resolved --> PostmortemAnalysis: Generate Report
+    EscalateToTeam --> PostmortemAnalysis: Team Resolved
+
+    PostmortemAnalysis --> Idle: Complete
+
+    Idle --> [*]

@@ -114,3 +114,35 @@ stateDiagram-v2
         philip.from_mermaid_text(text)
     assert exc_info.value.line_number == 5
     assert "garbage" in str(exc_info.value)
+
+
+def test_multiple_unlabeled_outbound_lift_to_choice_by_destination():
+    """Mermaid's hello-world has multiple unlabeled outbound from one state.
+    Burr rejects multiple defaults from one source; the lifter must lift each
+    edge to a ``_choice == "<destination>"`` guard so the actor picks at
+    runtime."""
+    app = philip.from_mermaid(FIXTURES / "multi_unlabeled.mmd")
+    still_outbound = [t for t in app.graph.transitions if t.from_.name == "Still"]
+    # Still has two outbound: -> Moving and -> done (the [*] terminal).
+    assert len(still_outbound) == 2
+    guards = sorted(getattr(t.condition, "name", "") for t in still_outbound)
+    assert '_choice == "Moving"' in guards
+    assert '_choice == "done"' in guards
+    # Moving has two outbound too; no default leaks.
+    moving_outbound = [t for t in app.graph.transitions if t.from_.name == "Moving"]
+    assert len(moving_outbound) == 2
+    for t in moving_outbound:
+        assert getattr(t.condition, "name", "") != "default"
+
+
+def test_example_diagrams_all_lift():
+    """Every diagram in examples/mermaid/ lifts cleanly. Acts as a regression
+    safety net for the canonical demo set."""
+    examples_dir = Path(__file__).parent.parent / "examples" / "mermaid"
+    if not examples_dir.is_dir():
+        pytest.skip("examples/mermaid not present in test layout")
+    diagrams = sorted(examples_dir.glob("*.mmd"))
+    assert diagrams, "expected at least one example diagram"
+    for path in diagrams:
+        app = philip.from_mermaid(path)
+        assert len(app.graph.actions) >= 1, f"{path.name} produced empty graph"

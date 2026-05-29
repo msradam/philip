@@ -1,0 +1,11 @@
+%% Door lock with key-event labels. Demonstrates _choice-driven branching:
+%% Locked has multiple outbound labels (unlock_pin / unlock_fingerprint /
+%% jiggle_handle) that lift to `_choice == "<label>"` guards.
+stateDiagram-v2
+    [*] --> Locked
+    Locked --> Unlocking: unlock_pin
+    Locked --> Unlocking: unlock_fingerprint
+    Locked --> Locked: jiggle_handle
+    Unlocking --> Unlocked
+    Unlocked --> Locked: timeout
+    Unlocked --> [*]

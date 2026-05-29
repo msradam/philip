@@ -6,6 +6,29 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-05-28
+
+### Fixed
+
+- Mermaid lift: multiple unlabeled outbound transitions from one state
+  now lift to ``_choice == "<destination>"`` guards instead of multiple
+  default transitions (which Burr rejects). Mermaid's "hello world"
+  example (Still/Moving/Crash) and many other public diagrams now lift
+  cleanly. The actor picks by destination name when the diagram does
+  not label the choice explicitly.
+- The same rule applies to labeled multi-outbound: a state with more
+  than one outbound now always produces guarded transitions, never a
+  mix of guarded and default.
+
+### Added
+
+- ``examples/mermaid/`` ships six canonical diagrams from public Mermaid
+  documentation and one production-shaped SRE incident workflow.
+  Together they exercise simple linear flows, branching, retry cycles,
+  cyclic workflows, frontmatter, and the new implicit-destination
+  guard behavior.
+- Regression test that lifts every diagram in ``examples/mermaid/``.
+
 ## [1.2.0] - 2026-05-28
 
 ### Added

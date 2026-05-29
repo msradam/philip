@@ -1,6 +1,6 @@
 [project]
 name = "philip-machine"
-version = "1.2.0"
+version = "1.2.1"
 description = "Lift Ansible playbooks into Burr state machines with audit, replay, and structural introspection."
 readme = "README.md"
 requires-python = ">=3.11,<3.14"

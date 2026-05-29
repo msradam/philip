@@ -1,0 +1,12 @@
+%% Source: JakeSteam Mermaid cheatsheet. A "zooming vehicle" lifecycle.
+%% Branches from Moving into Zooming or Crashed; Zooming itself escalates.
+stateDiagram-v2
+    direction LR
+    [*] --> Ready
+    Ready --> Moving
+    Moving --> Ready
+    Moving --> Zooming
+    Moving --> Crashed
+    Zooming --> Zoooooming
+    Zoooooming --> Crashed
+    Crashed --> [*]

@@ -256,27 +256,31 @@ def _build_application(
     for src, _, _ in runtime_edges:
         fan_out[src] = fan_out.get(src, 0) + 1
 
-    # Construct transitions.
+    # Construct transitions. Rule:
+    # * If the source has exactly one outbound edge, the transition is the
+    #   unconditional default and any label is documentation only.
+    # * If the source has more than one outbound edge, EVERY edge becomes a
+    #   guarded transition. Burr rejects multiple default transitions from
+    #   one source, and Mermaid's "from here, any of these can happen"
+    #   semantics needs the actor to pick at runtime anyway.
+    #   - Predicate-shaped labels (``severity == "high"``) lift to
+    #     :func:`burr.core.expr` directly.
+    #   - Descriptive labels lift to ``_choice == "<label>"``.
+    #   - Unlabeled edges in a branching source lift to
+    #     ``_choice == "<destination>"`` so the actor picks by target.
     burr_transitions: list[tuple[str, str] | tuple[str, str, object]] = []
     for src, dst, label in runtime_edges:
         target = "done" if dst == "[*]" else _safe_action_name(dst)
         source = _safe_action_name(src)
-        if label is None:
+        if fan_out[src] == 1:
             burr_transitions.append((source, target))
             continue
-        if _looks_like_predicate(label):
+        if label is not None and _looks_like_predicate(label):
             burr_transitions.append((source, target, expr(label)))
             continue
-        # Descriptive token. If the source has more than one outbound edge,
-        # the diagram is encoding a choice between cases; lift the token to
-        # a ``_choice == "<label>"`` guard so Burr can route. If the source
-        # has exactly one outbound edge, the label is documentation only
-        # and the transition is the unconditional default.
-        if fan_out[src] > 1:
-            safe_label = label.replace('"', '\\"')
-            burr_transitions.append((source, target, expr(f'_choice == "{safe_label}"')))
-        else:
-            burr_transitions.append((source, target))
+        choice_value = label if label is not None else target
+        safe_choice = choice_value.replace('"', '\\"')
+        burr_transitions.append((source, target, expr(f'_choice == "{safe_choice}"')))
 
     builder = (
         ApplicationBuilder()

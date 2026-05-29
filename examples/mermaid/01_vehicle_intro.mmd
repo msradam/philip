@@ -1,0 +1,11 @@
+%% Source: Mermaid's stateDiagram-v2 "hello world" example.
+%% A vehicle has three states. From Still you can either stay (return to Still
+%% from a trip via Moving), or progress to Crash (terminal).
+stateDiagram-v2
+    [*] --> Still
+    Still --> [*]
+
+    Still --> Moving
+    Moving --> Still
+    Moving --> Crash
+    Crash --> [*]

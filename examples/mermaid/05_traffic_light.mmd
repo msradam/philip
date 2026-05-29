@@ -1,0 +1,9 @@
+%% Classic traffic light FSM. Three states cycling Red -> Green -> Yellow -> Red.
+%% No terminal: the diagram represents an ongoing cycle. Philip synthesizes a
+%% `done` only when a `[*]` terminal is declared, so this lifts as a pure
+%% cycle without a halting state.
+stateDiagram-v2
+    [*] --> Red
+    Red --> Green
+    Green --> Yellow
+    Yellow --> Red
