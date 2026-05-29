@@ -49,7 +49,7 @@ substrate without rewriting anything.
 ## Install
 
 ```bash
-uv add philip-fsm
+uv add philip-machine
 ```
 
 Pulls `ansible-core` and `ansible-runner` transitively. Install Ansible

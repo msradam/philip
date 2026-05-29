@@ -1,5 +1,5 @@
 [project]
-name = "philip-fsm"
+name = "philip-machine"
 version = "1.0.0"
 description = "Lift Ansible playbooks into Burr state machines with audit, replay, and structural introspection."
 readme = "README.md"

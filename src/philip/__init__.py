@@ -67,7 +67,7 @@ from philip._runner import run_module
 from philip._wait import WaitGraph, wait_until
 
 try:
-    __version__ = version("philip-fsm")
+    __version__ = version("philip-machine")
 except PackageNotFoundError:
     # Running from a source checkout without an installed dist (e.g. tests in
     # CI before ``uv sync``). Fall back to a sentinel that's obviously not a

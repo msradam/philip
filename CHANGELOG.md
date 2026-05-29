@@ -14,8 +14,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   resolved by leaving the Burr name out. Sibling library to
   [Theodosia](https://github.com/msradam/theodosia) in the next-generation
   Hamilton family.
-- PyPI distribution name is ``philip-fsm`` (the bare ``philip`` was taken).
-  Python import remains ``philip``. CLI command remains ``philip``.
+- PyPI distribution name is ``philip-machine`` (the bare ``philip`` was
+  taken). Python import remains ``philip``. CLI command remains ``philip``.
 - Public API surface stable. All previous ``ansiburr.X`` imports become
   ``philip.X``. Callers update one import line.
 
@@ -55,11 +55,11 @@ app = philip.from_playbook("site.yml")
 # before
 dependencies = ["ansiburr>=0.0.26"]
 # after
-dependencies = ["philip-fsm>=1.0"]
+dependencies = ["philip-machine>=1.0"]
 ```
 
 The ``ansiburr`` distribution on PyPI will ship one final 0.0.27 release
-whose ``__init__.py`` raises ``ImportError`` pointing to ``philip-fsm``.
+whose ``__init__.py`` raises ``ImportError`` pointing to ``philip-machine``.
 
 ## [0.0.26] - 2026-05-21
 
