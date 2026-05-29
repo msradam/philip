@@ -623,9 +623,7 @@ def _render_markdown(report: InspectionReport) -> str:
         lines.append("")
         for v in report.undefined_variables:
             lines.append(f"- `{v.name}` referenced at:")
-            lines.extend(
-                f"  - `{u.where}`: `{u.raw_expression}`" for u in v.uses[:5]
-            )
+            lines.extend(f"  - `{u.where}`: `{u.raw_expression}`" for u in v.uses[:5])
             if len(v.uses) > 5:
                 lines.append(f"  - ... ({len(v.uses) - 5} more)")
         lines.append("")

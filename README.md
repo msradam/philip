@@ -1,14 +1,33 @@
 # Philip
 
-Lift your Ansible playbook into a Burr state machine with audit, replay,
-and structural introspection. Drive it under FSM gating with an MCP-mounted
-agent via [Theodosia](https://github.com/msradam/theodosia), or run it
-locally as a regular Python application.
+Lift operational artifacts into [Burr](https://burr.apache.org/) state
+machines with audit, replay, and structural introspection. Drive them
+under FSM gating with an MCP-mounted agent via
+[Theodosia](https://github.com/msradam/theodosia), or run them locally as
+regular Python applications.
+
+Supported sources today:
+
+- **Ansible playbooks** (YAML) — deterministic lift through
+  `philip.from_playbook(path)`
+- **Mermaid stateDiagram-v2** (`.mmd` / `.mermaid`) — deterministic lift
+  through `philip.from_mermaid(path)`. Useful for converting a README's
+  diagram into a runnable, agent-drivable FSM in one line.
+
+Hamilton (the dataflow library shipping no `from_X` of its own) and a
+broader set of FSM sources are on the roadmap: AWS Step Functions ASL,
+BPMN, dbt manifests, SQL CTE chains. Philip is the lift layer both
+substrates were missing.
 
 ```python
 import philip
 
+# Ansible YAML -> Burr Application
 app = philip.from_playbook("site.yml")
+
+# Mermaid diagram -> Burr Application
+app = philip.from_mermaid("docs/incident_response.mmd")
+
 last, _, state = app.run(halt_after=["done", "escalate"])
 
 report = philip.inspect("site.yml")
@@ -108,6 +127,59 @@ The following raise `UnsupportedPlaybookConstruct`:
 
 The supported subset covers the common single-play remediation and day-2
 procedures the FSM lift adds value to.
+
+## Mermaid stateDiagram-v2
+
+```python
+import philip
+
+app = philip.from_mermaid("incident_response.mmd")
+```
+
+Or directly from text:
+
+```python
+text = """
+stateDiagram-v2
+    [*] --> Acknowledge
+    Acknowledge --> Investigate : on_alert
+    Investigate --> Mitigate
+    Investigate --> Escalate : severity == "critical"
+    Mitigate --> Verify
+    Verify --> Done
+    Escalate --> Done
+    Done --> [*]
+"""
+app = philip.from_mermaid_text(text)
+```
+
+Lifting rules:
+
+- `[*] --> X` declares the entrypoint. Exactly one is required.
+- `X --> [*]` marks `X` as a terminal. Every terminal routes through a
+  synthesized `done` action so the Burr graph is closed.
+- `A --> B` is an unconditional transition.
+- `A --> B : label` carries an edge label. Labels that look like Python
+  predicates (contain comparison operators, `and`, `or`, `not`, `in`,
+  `is`) lift directly to `burr.core.expr` guards. Labels that look like
+  event names lift to `_choice == "<label>"` guards when the source has
+  multiple outbound edges; otherwise they are documentation only.
+- Comments (`%%`), `classDef`, `class`, `note`, `direction`, and `state`
+  declarations without a body are ignored.
+- Composite states (`state X { ... }`) raise `MermaidLiftError`. Inline
+  them in your diagram before lifting.
+
+Pair with Theodosia to mount a diagram as an MCP server:
+
+```python
+import philip
+import theodosia
+
+theodosia.mount(
+    philip.from_mermaid("incident_response.mmd"),
+    name="incident",
+).run()
+```
 
 ## Compose with Theodosia
 

@@ -1,0 +1,9 @@
+stateDiagram-v2
+    [*] --> Acknowledge
+    Acknowledge --> Investigate : on_alert
+    Investigate --> Mitigate
+    Investigate --> Escalate : severity == "critical"
+    Mitigate --> Verify
+    Verify --> Done
+    Escalate --> Done
+    Done --> [*]

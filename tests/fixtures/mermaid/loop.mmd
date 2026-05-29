@@ -1,0 +1,7 @@
+stateDiagram-v2
+    [*] --> Retry
+    Retry --> Retry : transient
+    Retry --> Done : ok
+    Retry --> Fail : permanent
+    Done --> [*]
+    Fail --> [*]

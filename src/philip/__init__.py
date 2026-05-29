@@ -63,6 +63,7 @@ from philip._inspect import (
     VariableUse,
     inspect,
 )
+from philip._lifters import MermaidLiftError, from_mermaid, from_mermaid_text
 from philip._runner import run_module
 from philip._wait import WaitGraph, wait_until
 
@@ -87,12 +88,15 @@ __all__ = [
     "FailureEdge",
     "Host",
     "InspectionReport",
+    "MermaidLiftError",
     "UnsupportedPlaybookConstruct",
     "VariableDefinition",
     "VariableProvenance",
     "VariableUse",
     "WaitGraph",
     "__version__",
+    "from_mermaid",
+    "from_mermaid_text",
     "from_playbook",
     "host",
     "initial_sentinels",

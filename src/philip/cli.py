@@ -33,6 +33,7 @@ from philip import __version__, from_playbook
 
 _PLAYBOOK_SUFFIXES = (".yml", ".yaml")
 _PYTHON_SUFFIXES = (".py",)
+_MERMAID_SUFFIXES = (".mmd", ".mermaid")
 _DEFAULT_HALT_AFTER: tuple[str, ...] = ("done", "escalate")
 
 
@@ -87,9 +88,13 @@ def _load_application(path: Path) -> Application:
         return from_playbook(path)
     if suffix in _PYTHON_SUFFIXES:
         return _load_python_application(path)
+    if suffix in _MERMAID_SUFFIXES:
+        from philip import from_mermaid
+
+        return from_mermaid(path)
     raise SystemExit(
         f"philip: don't know how to load {path}; expected one of "
-        f"{_PLAYBOOK_SUFFIXES + _PYTHON_SUFFIXES}"
+        f"{_PLAYBOOK_SUFFIXES + _PYTHON_SUFFIXES + _MERMAID_SUFFIXES}"
     )
 
 
@@ -402,7 +407,32 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     inspect_p.set_defaults(func=_cmd_inspect)
 
+    from_mermaid_p = subparsers.add_parser(
+        "from-mermaid",
+        help="Lift a Mermaid stateDiagram-v2 file into a Burr graph and print it.",
+    )
+    from_mermaid_p.add_argument("path", help="Path to a .mmd / .mermaid file.")
+    from_mermaid_p.add_argument(
+        "--format",
+        choices=sorted(_GRAPH_FORMATTERS.keys()),
+        default="text",
+        help="Graph rendering format. Default: text.",
+    )
+    from_mermaid_p.set_defaults(func=_cmd_from_mermaid)
+
     return parser
+
+
+def _cmd_from_mermaid(args: argparse.Namespace) -> int:
+    from philip import from_mermaid
+
+    path = Path(args.path)
+    if not path.exists():
+        raise SystemExit(f"philip: no such file: {path}")
+    app = from_mermaid(path)
+    formatter = _GRAPH_FORMATTERS[args.format]
+    print(formatter(app))
+    return 0
 
 
 def main(argv: Iterable[str] | None = None) -> int:

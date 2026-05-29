@@ -6,6 +6,30 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-05-28
+
+### Added
+
+- ``philip.from_mermaid(path)`` and ``philip.from_mermaid_text(source)``
+  deterministic lift for Mermaid stateDiagram-v2 diagrams. The supported
+  subset covers ``[*]`` pseudo-states (entrypoint and terminals),
+  unconditional and labeled transitions, presentation directives
+  (ignored), and a clear refusal on composite states. Predicate-shaped
+  labels lift to ``burr.core.expr`` guards; event-name labels on
+  branching sources lift to ``_choice == "<label>"`` guards.
+- ``philip from-mermaid <file>`` CLI subcommand.
+- ``MermaidLiftError`` exception carrying the offending line text and
+  1-based line number.
+- ``philip._lifters`` subpackage hosts new deterministic format lifters
+  (only Mermaid for now; ASL, BPMN, dbt, SQL CTE landing in subsequent
+  minor releases).
+
+### Documented
+
+- README now describes the dual-substrate ambition (Burr FSM plus
+  Hamilton DAG once that side lands) and the Mermaid lift surface.
+  Existing Ansible documentation unchanged.
+
 ## [1.0.0] - 2026-05-28
 
 ### Changed
