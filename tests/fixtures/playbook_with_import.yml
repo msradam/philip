@@ -1,0 +1,5 @@
+- name: with import
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - import_tasks: included_pings.yml

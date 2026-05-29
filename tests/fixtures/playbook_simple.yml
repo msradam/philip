@@ -1,0 +1,9 @@
+- name: simple
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: ping
+      ansible.builtin.ping:
+    - name: tag
+      ansible.builtin.debug:
+        msg: ok

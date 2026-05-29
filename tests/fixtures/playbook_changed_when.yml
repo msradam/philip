@@ -1,0 +1,9 @@
+- name: changed_when override
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: read only command
+      ansible.builtin.command:
+        cmd: echo "hello"
+      register: probe
+      changed_when: false

@@ -1,0 +1,9 @@
+- name: uses a role
+  hosts: localhost
+  gather_facts: no
+  roles:
+    - myrole
+  tasks:
+    - name: after role
+      ansible.builtin.set_fact:
+        post: "myrole_ran={{ myrole_ran }} extra={{ myrole_extra }}"

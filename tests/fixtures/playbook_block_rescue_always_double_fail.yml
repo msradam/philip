@@ -1,0 +1,22 @@
+- name: triple combo - block fails AND rescue fails; always runs; then escalate
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: pre
+      ansible.builtin.set_fact:
+        rescued: false
+        always_ran: false
+
+    - name: protected
+      block:
+        - name: deliberate failure
+          ansible.builtin.fail:
+            msg: "block failure"
+      rescue:
+        - name: also fails
+          ansible.builtin.fail:
+            msg: "rescue failure"
+      always:
+        - name: mark always ran
+          ansible.builtin.set_fact:
+            always_ran: true

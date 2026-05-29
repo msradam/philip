@@ -1,0 +1,12 @@
+# Tasks included for the Debian family target. In a real role these
+# would call ansible.builtin.apt; here they set facts so the demo runs
+# locally without root or network.
+
+- name: apt path - record family
+  ansible.builtin.set_fact:
+    distro_family: debian
+
+- name: apt path - record installed label
+  ansible.builtin.set_fact:
+    installed_label: "philip-debian-pretend-package"
+  notify: notify completion

@@ -1,0 +1,11 @@
+- name: with include
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: leading
+      ansible.builtin.ping:
+
+    - include_tasks: included_pings.yml
+
+    - name: trailing
+      ansible.builtin.ping:

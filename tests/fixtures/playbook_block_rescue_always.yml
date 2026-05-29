@@ -1,0 +1,22 @@
+- name: triple combo - block fails, rescue handles, always runs
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: pre
+      ansible.builtin.set_fact:
+        rescued: false
+        always_ran: false
+
+    - name: protected
+      block:
+        - name: deliberate failure
+          ansible.builtin.fail:
+            msg: "boom"
+      rescue:
+        - name: mark rescued
+          ansible.builtin.set_fact:
+            rescued: true
+      always:
+        - name: mark always ran
+          ansible.builtin.set_fact:
+            always_ran: true

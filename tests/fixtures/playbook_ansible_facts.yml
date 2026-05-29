@@ -1,0 +1,11 @@
+- name: ansible_facts projection
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+    - name: assert facts present
+      ansible.builtin.debug:
+        msg: "running on {{ ansible_facts.system | default('unknown') }}"
+
+    - name: capture distro for downstream
+      ansible.builtin.set_fact:
+        observed_system: "{{ ansible_facts.ansible_system | default(ansible_facts.system) | default('unknown') }}"

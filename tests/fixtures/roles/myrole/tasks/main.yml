@@ -1,0 +1,7 @@
+- name: role greet
+  ansible.builtin.debug:
+    msg: "hello from {{ myrole_who }}"
+
+- name: role mark
+  ansible.builtin.set_fact:
+    myrole_ran: true

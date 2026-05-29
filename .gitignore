@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+.eggs/
+
+# Build artifacts
+build/
+dist/
+.venv/
+venv/
+
+# Tooling caches
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Demo SSH keys — regenerated per-clone by examples/service_remediation/setup.sh
+examples/service_remediation/.demo_key
+examples/service_remediation/.demo_key.pub
+
+# Local demo state co-located with each example
+examples/coffee_order_ansible/.queue/
+examples/.hero-state/
+
+# Burr local tracker output (project-relative if anyone re-roots HOME)
+.burr/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store

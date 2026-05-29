@@ -1,0 +1,10 @@
+# ``roles:`` is now supported by the converter; the remaining
+# play-level constructs that still raise UnsupportedPlaybookConstruct
+# are the parallelism / phased-execution keywords. ``strategy: free``
+# triggers a clear rejection.
+- name: bad
+  hosts: localhost
+  gather_facts: no
+  strategy: free
+  tasks:
+    - ansible.builtin.ping:

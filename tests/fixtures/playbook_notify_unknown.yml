@@ -1,0 +1,12 @@
+- name: notify unknown
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: noop
+      ansible.builtin.ping:
+      notify: not declared anywhere
+
+  handlers:
+    - name: this one exists
+      ansible.builtin.ping:

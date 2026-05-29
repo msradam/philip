@@ -1,0 +1,23 @@
+- name: block plus rescue
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: pre task
+      ansible.builtin.set_fact:
+        rescued: false
+
+    - name: protected work
+      block:
+        - name: first inner
+          ansible.builtin.ping:
+        - name: deliberate failure
+          ansible.builtin.fail:
+            msg: "boom from inside the block"
+      rescue:
+        - name: record rescue
+          ansible.builtin.set_fact:
+            rescued: true
+
+    - name: post task
+      ansible.builtin.ping:
+      register: post_probe

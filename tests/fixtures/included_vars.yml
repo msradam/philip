@@ -1,0 +1,5 @@
+distro_family: debian
+package_manager: apt
+default_packages:
+  - curl
+  - jq

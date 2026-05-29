@@ -1,0 +1,12 @@
+- name: templated include_vars
+  hosts: localhost
+  gather_facts: no
+  vars:
+    pkg_mgr: apt
+  tasks:
+    - name: load distro-specific vars
+      ansible.builtin.include_vars: "{{ pkg_mgr }}-vars.yml"
+
+    - name: confirm
+      ansible.builtin.debug:
+        msg: "loaded label={{ distro_label }}"

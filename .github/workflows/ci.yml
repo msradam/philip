@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  quality:
+    name: lint, type-check, test
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.5.x"
+
+      - name: Pin Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Sync dependencies
+        run: uv sync --python ${{ matrix.python-version }}
+
+      - name: Ruff format check
+        run: uv run ruff format --check .
+
+      - name: Ruff lint
+        run: uv run ruff check .
+
+      - name: Mypy
+        run: uv run mypy src/philip
+
+      - name: Vulture (dead-code check)
+        run: uv run vulture src/philip/ --min-confidence 80
+
+      - name: Refurb (modernization check)
+        # Refurb requires running from inside src/ so mypy doesn't see the
+        # package under both ``src.philip`` and ``philip``. FURB184 is
+        # suppressed because it triggers on ``args = parse_args(); args.func(args)``
+        # which can't be chained (args is referenced twice).
+        run: |
+          cd src
+          uv run --project .. refurb --ignore 184 philip
+
+      - name: Pytest
+        # Tests that talk to ansible-runner need ansible-playbook on PATH;
+        # ansible-core (a runtime dep) provides it through uv sync. Skip
+        # the network-touching unreachable test in CI (RFC 5737 traffic
+        # behavior varies by network policy).
+        run: uv run pytest tests/ -v --deselect tests/test_failures.py::test_unreachable_host_sets_last_unreachable
+
+  build:
+    name: build wheel + sdist
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.5.x"
+
+      - name: Build distributions
+        run: uv build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/*
+          retention-days: 7

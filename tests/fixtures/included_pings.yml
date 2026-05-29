@@ -1,0 +1,5 @@
+- name: included alpha
+  ansible.builtin.ping:
+
+- name: included beta
+  ansible.builtin.ping:

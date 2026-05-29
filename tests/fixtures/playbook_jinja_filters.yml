@@ -1,0 +1,24 @@
+- name: jinja filters in when clauses
+  hosts: localhost
+  gather_facts: no
+  vars:
+    paths_list:
+      - /etc/foo
+      - /etc/bar
+    label_dict:
+      version: "2.0"
+  tasks:
+    - name: skip when length-test gates out
+      ansible.builtin.set_fact:
+        skip_marker: false
+      when: paths_list | length > 0
+
+    - name: handle is defined
+      ansible.builtin.set_fact:
+        defined_marker: true
+      when: label_dict is defined
+
+    - name: handle default filter
+      ansible.builtin.set_fact:
+        defaulted: "{{ missing_value | default('fallback') }}"
+      when: (paths_list | first) == "/etc/foo"

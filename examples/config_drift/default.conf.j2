@@ -1,0 +1,9 @@
+server {
+    listen {{ listen_port | default(80) }};
+    server_name _;
+
+    location / {
+        return 200 "ansiburr-config-drift OK from {{ inventory_hostname }} (port {{ listen_port | default(80) }})\n";
+        add_header Content-Type text/plain;
+    }
+}

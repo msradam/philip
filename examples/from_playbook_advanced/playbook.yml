@@ -1,0 +1,71 @@
+# Multi-feature ansible playbook exercising the constructs philip's
+# forward converter handles as of v0.0.7. Lifts cleanly into a runnable
+# Burr Application via `philip.from_playbook(...)`.
+#
+# Constructs exercised:
+#   - set_fact (with Jinja referencing prior facts)
+#   - block (group-only)
+#   - loop with a literal list and per-iteration {{ item }} template
+#   - notify + handlers (deferred handler, gated on _last_changed)
+#   - changed_when: false on a read-only command
+#   - when:-skip on a task
+
+- name: workspace setup
+  hosts: localhost
+  gather_facts: no
+
+  vars:
+    workspace_dir: "~/.philip-advanced-demo"
+
+  tasks:
+    - name: compute paths
+      ansible.builtin.set_fact:
+        marker_file: "{{ workspace_dir }}/.philip-marker"
+        manifest_file: "{{ workspace_dir }}/manifest.txt"
+
+    - name: prepare workspace
+      block:
+        - name: ensure dir exists
+          ansible.builtin.file:
+            path: "{{ workspace_dir }}"
+            state: directory
+            mode: "0755"
+
+        - name: drop marker
+          ansible.builtin.copy:
+            content: "philip advanced demo\n"
+            dest: "{{ marker_file }}"
+            mode: "0644"
+          notify: log marker write
+
+    - name: write manifest entries
+      ansible.builtin.lineinfile:
+        path: "{{ manifest_file }}"
+        line: "registered: {{ item }}"
+        create: yes
+        mode: "0644"
+      loop:
+        - alpha
+        - beta
+        - gamma
+
+    - name: count manifest lines
+      ansible.builtin.command:
+        cmd: "wc -l {{ manifest_file }}"
+      register: count_probe
+      changed_when: false
+
+    - name: skip this if manifest is empty
+      ansible.builtin.debug:
+        msg: "manifest holds entries"
+      when: count_probe.stdout != ""
+
+    - name: cleanup workspace
+      ansible.builtin.file:
+        path: "{{ workspace_dir }}"
+        state: absent
+
+  handlers:
+    - name: log marker write
+      ansible.builtin.debug:
+        msg: "handler fired because the marker file was newly written"

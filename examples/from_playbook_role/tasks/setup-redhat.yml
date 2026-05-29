@@ -1,0 +1,12 @@
+# Tasks included for the RedHat family target. In a real role these
+# would call ansible.builtin.dnf or yum; here they set facts so the
+# demo runs locally without root or network.
+
+- name: dnf path - record family
+  ansible.builtin.set_fact:
+    distro_family: redhat
+
+- name: dnf path - record installed label
+  ansible.builtin.set_fact:
+    installed_label: "philip-redhat-pretend-package"
+  notify: notify completion

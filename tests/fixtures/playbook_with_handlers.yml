@@ -1,0 +1,21 @@
+- name: with handlers
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: changing task
+      ansible.builtin.copy:
+        content: "philip handler test\n"
+        dest: "/tmp/philip-handler-fixture"
+        mode: "0644"
+      notify: say hello
+
+    - name: cleanup
+      ansible.builtin.file:
+        path: "/tmp/philip-handler-fixture"
+        state: absent
+
+  handlers:
+    - name: say hello
+      ansible.builtin.debug:
+        msg: "the handler ran because the copy reported changed"

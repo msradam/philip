@@ -1,0 +1,35 @@
+# A small, realistic Ansible playbook. Lifted into a runnable Burr FSM
+# by ``philip.from_playbook(...)``. See ``run.py`` next to this file.
+- name: tool availability check
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: check for git
+      ansible.builtin.command:
+        cmd: git --version
+      register: git_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: report git availability
+      ansible.builtin.debug:
+        msg: "git is installed: {{ git_check.stdout }}"
+      when: git_check.rc == 0
+
+    - name: report git missing
+      ansible.builtin.debug:
+        msg: "git is not installed (rc={{ git_check.rc }})"
+      when: git_check.rc != 0
+
+    - name: check for jq
+      ansible.builtin.command:
+        cmd: jq --version
+      register: jq_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: report jq availability
+      ansible.builtin.debug:
+        msg: "jq is installed: {{ jq_check.stdout }}"
+      when: jq_check.rc == 0

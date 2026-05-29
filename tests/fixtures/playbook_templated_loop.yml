@@ -1,0 +1,13 @@
+- name: templated loop reads from state
+  hosts: localhost
+  gather_facts: no
+  vars:
+    targets:
+      - alpha
+      - bravo
+      - charlie
+  tasks:
+    - name: log each target
+      ansible.builtin.debug:
+        msg: "configuring {{ item }}"
+      loop: "{{ targets }}"

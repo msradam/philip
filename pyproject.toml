@@ -1,0 +1,78 @@
+[project]
+name = "philip-fsm"
+version = "1.0.0"
+description = "Lift Ansible playbooks into Burr state machines with audit, replay, and structural introspection."
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+license = "Apache-2.0"
+authors = [
+    { name = "Adam Munawar Rahman", email = "msrahmanadam@gmail.com" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: Ansible",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "ansible-core>=2.16,<3",
+    "ansible-runner>=2.4,<3",
+    "apache-burr[tracking]>=0.42,<0.43",
+    "pyyaml>=6",
+]
+
+[project.urls]
+Homepage = "https://github.com/msradam/philip"
+Source = "https://github.com/msradam/philip"
+Issues = "https://github.com/msradam/philip/issues"
+
+[project.scripts]
+philip = "philip.cli:main"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/philip"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/philip/py.typed" = "philip/py.typed"
+
+[dependency-groups]
+dev = [
+    "pytest>=9",
+    "ruff>=0.15",
+    "mypy>=1.10",
+    "types-pyyaml>=6",
+    "docker>=7.1.0",
+    "twine>=6.2.0",
+    "vulture>=2.16",
+    "radon>=6.0.1",
+    "refurb>=2.3.1",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "C4", "UP", "SIM", "RUF", "PERF", "PIE", "RET"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

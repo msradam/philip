@@ -1,0 +1,16 @@
+# block + rescue (v0.0.10) and block + always (v0.0.11) are both
+# supported. block + rescue + always together is still rejected.
+- name: bad
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: try
+      block:
+        - name: inner
+          ansible.builtin.ping:
+      rescue:
+        - name: recover
+          ansible.builtin.ping:
+      always:
+        - name: cleanup
+          ansible.builtin.ping:

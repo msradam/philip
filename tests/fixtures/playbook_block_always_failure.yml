@@ -1,0 +1,17 @@
+- name: block plus always with block failure
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: pre
+      ansible.builtin.set_fact:
+        always_ran: false
+
+    - name: protected
+      block:
+        - name: deliberate failure
+          ansible.builtin.fail:
+            msg: "boom"
+      always:
+        - name: cleanup
+          ansible.builtin.set_fact:
+            always_ran: true

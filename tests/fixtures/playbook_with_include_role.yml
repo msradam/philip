@@ -1,0 +1,16 @@
+- name: include_role task-level test
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: pick phase
+      ansible.builtin.set_fact:
+        phase: setup
+
+    - name: pull in role via task-level include_role
+      ansible.builtin.include_role:
+        name: myrole
+      when: phase == "setup"
+
+    - name: after include_role
+      ansible.builtin.set_fact:
+        post: "myrole_ran={{ myrole_ran }}"

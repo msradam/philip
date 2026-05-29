@@ -1,0 +1,12 @@
+- name: literal-loop greeting
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: greet each
+      ansible.builtin.debug:
+        msg: "hello {{ item }}"
+      loop:
+        - alice
+        - bob
+        - charlie
+      register: greeting_step

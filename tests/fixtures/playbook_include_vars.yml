@@ -1,0 +1,11 @@
+- name: include_vars lowering
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: load distro vars
+      ansible.builtin.include_vars:
+        file: included_vars.yml
+
+    - name: confirm fields landed
+      ansible.builtin.debug:
+        msg: "family={{ distro_family }} pm={{ package_manager }}"

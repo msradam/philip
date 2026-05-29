@@ -1,0 +1,12 @@
+- name: set_fact lowering
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: seed values
+      ansible.builtin.set_fact:
+        greeting: "hello"
+        target: "world"
+
+    - name: build composed
+      ansible.builtin.set_fact:
+        composed: "{{ greeting }}, {{ target }}!"

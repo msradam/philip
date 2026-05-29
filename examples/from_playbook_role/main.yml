@@ -1,0 +1,37 @@
+# Multi-file role-style playbook. Mirrors the shape every popular
+# community Ansible role (geerlingguy.mysql, .docker, .postgresql, .nginx)
+# opens with: an OS-conditional dispatch into a setup-<distro>.yml file.
+# philip's converter inlines the include_tasks at conversion time and
+# evaluates the when: clause as a Burr transition predicate.
+
+- name: pretend-role install
+  hosts: localhost
+  gather_facts: no
+  vars:
+    # In a real role this would come from ``gather_facts`` and would be
+    # one of "apt", "dnf", "yum", "pacman", "zypper", etc. The play-level
+    # var pretends it has been gathered; the include dispatch then picks
+    # the right setup file.
+    target_pkg_mgr: apt
+
+  tasks:
+    - name: announce
+      ansible.builtin.set_fact:
+        announce_text: "preparing install for {{ target_pkg_mgr }}"
+
+    - name: load distro setup (debian family)
+      ansible.builtin.include_tasks: tasks/setup-debian.yml
+      when: target_pkg_mgr == "apt"
+
+    - name: load distro setup (redhat family)
+      ansible.builtin.include_tasks: tasks/setup-redhat.yml
+      when: target_pkg_mgr in ["dnf", "yum"]
+
+    - name: report installed
+      ansible.builtin.debug:
+        msg: "configured for {{ target_pkg_mgr }}; installed_label={{ installed_label }}"
+
+  handlers:
+    - name: notify completion
+      ansible.builtin.debug:
+        msg: "install completed for {{ target_pkg_mgr }}"

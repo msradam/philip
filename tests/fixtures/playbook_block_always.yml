@@ -1,0 +1,20 @@
+- name: block plus always
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: pre
+      ansible.builtin.set_fact:
+        always_ran: false
+        block_succeeded: false
+
+    - name: protected
+      block:
+        - name: inner ok
+          ansible.builtin.ping:
+        - name: success marker
+          ansible.builtin.set_fact:
+            block_succeeded: true
+      always:
+        - name: cleanup
+          ansible.builtin.set_fact:
+            always_ran: true

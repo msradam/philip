@@ -1,0 +1,14 @@
+- name: when
+  hosts: localhost
+  gather_facts: no
+  vars:
+    skip_me: true
+  tasks:
+    - name: a
+      ansible.builtin.ping:
+    - name: b
+      ansible.builtin.debug:
+        msg: skipped
+      when: not skip_me
+    - name: c
+      ansible.builtin.ping:

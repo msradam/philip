@@ -1,0 +1,7 @@
+- name: register
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: ping_with_register
+      ansible.builtin.ping:
+      register: ping_result
