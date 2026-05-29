@@ -48,7 +48,15 @@ def test_public_exports_stable() -> None:
         "to_playbook",
         "wait_until",
     }
-    optional_hamilton = {"SqlCteLiftError", "SqlNode", "from_sql_cte"}
+    optional_hamilton = {
+        "MermaidFlowLiftError",
+        "MermaidNode",
+        "SqlCteLiftError",
+        "SqlNode",
+        "from_mermaid_flow",
+        "from_mermaid_flow_text",
+        "from_sql_cte",
+    }
     actual = set(philip.__all__)
     # Core names must always be present; Hamilton lifters appear when the
     # optional extra is installed.

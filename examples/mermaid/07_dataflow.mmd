@@ -1,0 +1,13 @@
+%% Mermaid flowchart lifts to a Hamilton DAG (not a Burr FSM).
+%% Each node becomes a Hamilton function; edges declare upstream
+%% dependencies. Use philip.from_mermaid_flow() for diagrams that open
+%% with `flowchart` or `graph`; use philip.from_mermaid() for diagrams
+%% that open with `stateDiagram-v2`.
+flowchart TD
+    raw[Raw Orders] --> clean[Cleaned]
+    clean --> joined[Joined With Customers]
+    customers[Customer Master] --> joined
+    joined --> by_region[Region Summary]
+    joined --> by_segment[Segment Summary]
+    by_region --> report[Daily Report]
+    by_segment --> report

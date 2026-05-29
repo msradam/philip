@@ -1,26 +1,30 @@
 # Philip
 
-Lift operational artifacts into [Burr](https://burr.apache.org/) state
-machines with audit, replay, and structural introspection. Drive them
-under FSM gating with an MCP-mounted agent via
-[Theodosia](https://github.com/msradam/theodosia), or run them locally as
-regular Python applications.
+Lift declarative artifacts into the right substrate. Diagrams, playbooks,
+and queries already encode dataflow or control flow; Philip turns them
+into runnable [Burr](https://burr.apache.org/) state machines and
+[Hamilton](https://hamilton.apache.org/) DAGs you can audit, replay, and
+introspect. Drive the resulting FSMs under MCP gating via
+[Theodosia](https://github.com/msradam/theodosia), or run any lifted
+artifact locally as a regular Python application.
 
-Supported sources today, into the Burr state-machine substrate:
+Sources lifting to Burr state machines:
 
-- **Ansible playbooks** (YAML) — deterministic lift through
-  `philip.from_playbook(path)`
-- **Mermaid stateDiagram-v2** (`.mmd` / `.mermaid`) — deterministic lift
-  through `philip.from_mermaid(path)`. Useful for converting a README's
-  diagram into a runnable, agent-drivable FSM in one line.
+- **Ansible playbooks** (YAML) — `philip.from_playbook(path)`. Tasks
+  become actions, conditions become guards, failures become classified
+  transitions.
+- **Mermaid stateDiagram-v2** — `philip.from_mermaid(path)`. Paste a
+  diagram, get a runnable FSM. Multi-outbound branches lift to
+  `_choice` guards the actor picks at runtime.
 
-Supported sources today, into the Hamilton dataflow-DAG substrate
-(install the `hamilton` extra):
+Sources lifting to Hamilton DAGs (install the `hamilton` extra):
 
-- **SQL with CTEs** — deterministic lift through `philip.from_sql_cte(sql)`.
-  Each CTE becomes a Hamilton function; external tables become Driver
-  inputs. The result is a runnable, visualizable, type-checkable DAG
-  for a query that was previously a single 500-line blob.
+- **Mermaid flowchart / graph** — `philip.from_mermaid_flow(path)`.
+  Each node becomes a Hamilton function whose parameter names declare
+  its upstream dependencies, exactly mirroring the diagram's edges.
+- **SQL with CTEs** — `philip.from_sql_cte(sql)`. Each CTE becomes a
+  function; external tables become Driver inputs. Read a 500-line query
+  as a typed, visualizable dataflow.
 
 More sources land in subsequent minor releases: AWS Step Functions ASL,
 BPMN, dbt manifests, and additional DAG sources. Hamilton itself ships

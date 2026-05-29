@@ -25,11 +25,23 @@ from philip._lifters.mermaid import (
 # them lazily lets the core install work without ``sf-hamilton`` and
 # ``sqlglot`` present.
 try:
+    from philip._lifters.mermaid_flow import MermaidFlowLiftError as MermaidFlowLiftError
+    from philip._lifters.mermaid_flow import MermaidNode as MermaidNode
+    from philip._lifters.mermaid_flow import from_mermaid_flow as from_mermaid_flow
+    from philip._lifters.mermaid_flow import from_mermaid_flow_text as from_mermaid_flow_text
     from philip._lifters.sql_cte import SqlCteLiftError as SqlCteLiftError
     from philip._lifters.sql_cte import SqlNode as SqlNode
     from philip._lifters.sql_cte import from_sql_cte as from_sql_cte
 
-    _HAMILTON_EXPORTS = ["SqlCteLiftError", "SqlNode", "from_sql_cte"]
+    _HAMILTON_EXPORTS = [
+        "MermaidFlowLiftError",
+        "MermaidNode",
+        "SqlCteLiftError",
+        "SqlNode",
+        "from_mermaid_flow",
+        "from_mermaid_flow_text",
+        "from_sql_cte",
+    ]
 except ImportError:  # pragma: no cover - exercised by environments missing the extra
     _HAMILTON_EXPORTS = []
 

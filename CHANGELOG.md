@@ -6,6 +6,29 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-05-28
+
+### Added
+
+- ``philip.from_mermaid_flow(path)`` and
+  ``philip.from_mermaid_flow_text(source)`` lift Mermaid ``flowchart``
+  and ``graph`` diagrams into Hamilton-compatible Python modules. Each
+  diagram node becomes a Hamilton function whose parameters declare its
+  upstream dependencies, mirroring the diagram's edges. Cycles are
+  rejected (Hamilton requires a DAG). Subgraphs are rejected in v1.
+- ``philip.MermaidNode`` dataclass for synthesized node return values.
+- ``philip.MermaidFlowLiftError`` with line numbers.
+- ``examples/mermaid/07_dataflow.mmd``: a 7-node fan-in/fan-out
+  dataflow example.
+
+### Changed
+
+- Project description (PyPI summary) updated to reflect the
+  dual-substrate scope: "Lift declarative artifacts (Ansible, Mermaid,
+  SQL) into Burr state machines and Hamilton DAGs."
+- README opens with a clearer four-source breakdown across both
+  substrates.
+
 ## [1.2.1] - 2026-05-28
 
 ### Fixed

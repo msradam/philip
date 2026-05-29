@@ -66,8 +66,12 @@ from philip._inspect import (
 from philip._lifters import MermaidLiftError, from_mermaid, from_mermaid_text
 
 try:
+    from philip._lifters import MermaidFlowLiftError as MermaidFlowLiftError
+    from philip._lifters import MermaidNode as MermaidNode
     from philip._lifters import SqlCteLiftError as SqlCteLiftError
     from philip._lifters import SqlNode as SqlNode
+    from philip._lifters import from_mermaid_flow as from_mermaid_flow
+    from philip._lifters import from_mermaid_flow_text as from_mermaid_flow_text
     from philip._lifters import from_sql_cte as from_sql_cte
 
     _HAS_HAMILTON_LIFTERS = True
@@ -84,7 +88,15 @@ except PackageNotFoundError:
     # released version.
     __version__ = "0+unknown"
 
-_HAMILTON_PUBLIC_NAMES = ["SqlCteLiftError", "SqlNode", "from_sql_cte"]
+_HAMILTON_PUBLIC_NAMES = [
+    "MermaidFlowLiftError",
+    "MermaidNode",
+    "SqlCteLiftError",
+    "SqlNode",
+    "from_mermaid_flow",
+    "from_mermaid_flow_text",
+    "from_sql_cte",
+]
 
 __all__ = [
     "DEFAULT_FACT_KEYS",

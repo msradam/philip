@@ -135,14 +135,23 @@ def test_multiple_unlabeled_outbound_lift_to_choice_by_destination():
         assert getattr(t.condition, "name", "") != "default"
 
 
-def test_example_diagrams_all_lift():
-    """Every diagram in examples/mermaid/ lifts cleanly. Acts as a regression
-    safety net for the canonical demo set."""
+def test_example_state_diagrams_all_lift():
+    """Every stateDiagram in examples/mermaid/ lifts cleanly. Acts as a
+    regression safety net for the canonical demo set. flowchart diagrams
+    in the same directory are excluded (they belong to the Hamilton
+    lifter)."""
     examples_dir = Path(__file__).parent.parent / "examples" / "mermaid"
     if not examples_dir.is_dir():
         pytest.skip("examples/mermaid not present in test layout")
-    diagrams = sorted(examples_dir.glob("*.mmd"))
-    assert diagrams, "expected at least one example diagram"
-    for path in diagrams:
+    state_diagrams = [
+        p
+        for p in sorted(examples_dir.glob("*.mmd"))
+        if any(
+            line.strip().startswith("stateDiagram")
+            for line in p.read_text().splitlines()
+        )
+    ]
+    assert state_diagrams, "expected at least one stateDiagram example"
+    for path in state_diagrams:
         app = philip.from_mermaid(path)
         assert len(app.graph.actions) >= 1, f"{path.name} produced empty graph"
