@@ -6,6 +6,33 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- ``philip.PhilipGraph`` intermediate representation: a typed directed
+  graph with ``Node`` and ``Edge`` records plus optional FSM metadata
+  (``entrypoint``, ``terminals``). Methods ``to_burr()`` and
+  ``to_hamilton()`` project the IR onto either substrate. New format
+  lifters parse to the IR and get both substrate projections for free.
+- ``philip.from_excalidraw(path)`` and ``philip.from_excalidraw_text(source)``
+  lift Excalidraw sketches into ``PhilipGraph``. Supports the native
+  ``.excalidraw`` JSON format and the ``.excalidraw.svg`` default export
+  with embedded base64 JSON payload. Resolves text labels via
+  ``containerId`` binding (Excalidraw 0.16+) with bounding-box
+  containment as a fallback for older or hand-positioned text.
+- ``philip.Node``, ``philip.Edge``, ``philip.GraphNode`` dataclasses
+  exposed at the package root.
+- ``philip.ExcalidrawLiftError`` exception with clear messages for
+  non-Excalidraw documents, SVGs without embedded payload, and missing
+  shapes.
+
+### Notes
+
+- The existing Mermaid, SQL CTE, and Ansible lifters continue to build
+  Burr or Hamilton directly; they will migrate to the IR pattern in a
+  later release without breaking the public API.
+- Cycles project happily to Burr (FSM retry loops use them) but raise
+  ``ValueError`` on ``to_hamilton()``.
+
 ## [1.3.0] - 2026-05-28
 
 ### Added

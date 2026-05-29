@@ -1,0 +1,23 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "philip-test-fixture",
+  "elements": [
+    {"id": "s-a", "type": "rectangle", "x": 100, "y": 100, "width": 80, "height": 40},
+    {"id": "t-a", "type": "text", "x": 110, "y": 110, "containerId": "s-a", "text": "A"},
+    {"id": "s-b", "type": "rectangle", "x": 300, "y": 100, "width": 80, "height": 40},
+    {"id": "t-b", "type": "text", "x": 310, "y": 110, "containerId": "s-b", "text": "B"},
+    {
+      "id": "a-1", "type": "arrow", "x": 180, "y": 120, "points": [[0,0],[120,0]],
+      "startBinding": {"elementId": "s-a"},
+      "endBinding": {"elementId": "s-b"}
+    },
+    {
+      "id": "a-2", "type": "arrow", "x": 300, "y": 120, "points": [[0,0],[-120,0]],
+      "startBinding": {"elementId": "s-b"},
+      "endBinding": {"elementId": "s-a"}
+    }
+  ],
+  "appState": {},
+  "files": {}
+}

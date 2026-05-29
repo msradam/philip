@@ -15,6 +15,11 @@ DAG lifters (return a Hamilton-compatible Python module):
   Requires the ``hamilton`` extra: ``pip install 'philip-machine[hamilton]'``.
 """
 
+from philip._lifters.excalidraw import (
+    ExcalidrawLiftError,
+    from_excalidraw,
+    from_excalidraw_text,
+)
 from philip._lifters.mermaid import (
     MermaidLiftError,
     from_mermaid,
@@ -46,8 +51,11 @@ except ImportError:  # pragma: no cover - exercised by environments missing the 
     _HAMILTON_EXPORTS = []
 
 __all__ = [
+    "ExcalidrawLiftError",
     "MermaidLiftError",
     *_HAMILTON_EXPORTS,
+    "from_excalidraw",
+    "from_excalidraw_text",
     "from_mermaid",
     "from_mermaid_text",
 ]

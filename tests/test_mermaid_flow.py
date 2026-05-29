@@ -158,8 +158,7 @@ def test_example_flowchart_diagrams_all_lift():
         p
         for p in sorted(examples_dir.glob("*.mmd"))
         if any(
-            line.strip().startswith(("flowchart", "graph "))
-            for line in p.read_text().splitlines()
+            line.strip().startswith(("flowchart", "graph ")) for line in p.read_text().splitlines()
         )
     ]
     assert flow_diagrams, "expected at least one flowchart example"

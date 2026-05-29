@@ -63,7 +63,15 @@ from philip._inspect import (
     VariableUse,
     inspect,
 )
-from philip._lifters import MermaidLiftError, from_mermaid, from_mermaid_text
+from philip._ir import Edge, GraphNode, Node, PhilipGraph
+from philip._lifters import (
+    ExcalidrawLiftError,
+    MermaidLiftError,
+    from_excalidraw,
+    from_excalidraw_text,
+    from_mermaid,
+    from_mermaid_text,
+)
 
 try:
     from philip._lifters import MermaidFlowLiftError as MermaidFlowLiftError
@@ -108,16 +116,23 @@ __all__ = [
     "FAILURE_KIND_UNREACHABLE",
     "SENTINEL_KEYS",
     "ActionFailureTopology",
+    "Edge",
+    "ExcalidrawLiftError",
     "FailureEdge",
+    "GraphNode",
     "Host",
     "InspectionReport",
     "MermaidLiftError",
+    "Node",
+    "PhilipGraph",
     "UnsupportedPlaybookConstruct",
     "VariableDefinition",
     "VariableProvenance",
     "VariableUse",
     "WaitGraph",
     "__version__",
+    "from_excalidraw",
+    "from_excalidraw_text",
     "from_mermaid",
     "from_mermaid_text",
     "from_playbook",

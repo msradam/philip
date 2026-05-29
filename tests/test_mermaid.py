@@ -146,10 +146,7 @@ def test_example_state_diagrams_all_lift():
     state_diagrams = [
         p
         for p in sorted(examples_dir.glob("*.mmd"))
-        if any(
-            line.strip().startswith("stateDiagram")
-            for line in p.read_text().splitlines()
-        )
+        if any(line.strip().startswith("stateDiagram") for line in p.read_text().splitlines())
     ]
     assert state_diagrams, "expected at least one stateDiagram example"
     for path in state_diagrams:

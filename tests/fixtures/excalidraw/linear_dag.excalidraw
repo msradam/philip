@@ -1,0 +1,25 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "philip-test-fixture",
+  "elements": [
+    {"id": "s-raw", "type": "rectangle", "x": 100, "y": 100, "width": 80, "height": 40},
+    {"id": "t-raw", "type": "text", "x": 110, "y": 110, "containerId": "s-raw", "text": "Raw"},
+    {"id": "s-clean", "type": "rectangle", "x": 300, "y": 100, "width": 80, "height": 40},
+    {"id": "t-clean", "type": "text", "x": 310, "y": 110, "containerId": "s-clean", "text": "Clean"},
+    {"id": "s-out", "type": "rectangle", "x": 500, "y": 100, "width": 80, "height": 40},
+    {"id": "t-out", "type": "text", "x": 510, "y": 110, "containerId": "s-out", "text": "Output"},
+    {
+      "id": "a-1", "type": "arrow", "x": 180, "y": 120, "points": [[0,0],[120,0]],
+      "startBinding": {"elementId": "s-raw"},
+      "endBinding": {"elementId": "s-clean"}
+    },
+    {
+      "id": "a-2", "type": "arrow", "x": 380, "y": 120, "points": [[0,0],[120,0]],
+      "startBinding": {"elementId": "s-clean"},
+      "endBinding": {"elementId": "s-out"}
+    }
+  ],
+  "appState": {},
+  "files": {}
+}
