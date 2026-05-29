@@ -64,6 +64,15 @@ from philip._inspect import (
     inspect,
 )
 from philip._lifters import MermaidLiftError, from_mermaid, from_mermaid_text
+
+try:
+    from philip._lifters import SqlCteLiftError as SqlCteLiftError
+    from philip._lifters import SqlNode as SqlNode
+    from philip._lifters import from_sql_cte as from_sql_cte
+
+    _HAS_HAMILTON_LIFTERS = True
+except ImportError:  # pragma: no cover - extra not installed
+    _HAS_HAMILTON_LIFTERS = False
 from philip._runner import run_module
 from philip._wait import WaitGraph, wait_until
 
@@ -74,6 +83,8 @@ except PackageNotFoundError:
     # CI before ``uv sync``). Fall back to a sentinel that's obviously not a
     # released version.
     __version__ = "0+unknown"
+
+_HAMILTON_PUBLIC_NAMES = ["SqlCteLiftError", "SqlNode", "from_sql_cte"]
 
 __all__ = [
     "DEFAULT_FACT_KEYS",
@@ -106,4 +117,5 @@ __all__ = [
     "snapshot_sentinels",
     "to_playbook",
     "wait_until",
+    *(_HAMILTON_PUBLIC_NAMES if _HAS_HAMILTON_LIFTERS else []),
 ]

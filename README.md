@@ -6,7 +6,7 @@ under FSM gating with an MCP-mounted agent via
 [Theodosia](https://github.com/msradam/theodosia), or run them locally as
 regular Python applications.
 
-Supported sources today:
+Supported sources today, into the Burr state-machine substrate:
 
 - **Ansible playbooks** (YAML) — deterministic lift through
   `philip.from_playbook(path)`
@@ -14,10 +14,18 @@ Supported sources today:
   through `philip.from_mermaid(path)`. Useful for converting a README's
   diagram into a runnable, agent-drivable FSM in one line.
 
-Hamilton (the dataflow library shipping no `from_X` of its own) and a
-broader set of FSM sources are on the roadmap: AWS Step Functions ASL,
-BPMN, dbt manifests, SQL CTE chains. Philip is the lift layer both
-substrates were missing.
+Supported sources today, into the Hamilton dataflow-DAG substrate
+(install the `hamilton` extra):
+
+- **SQL with CTEs** — deterministic lift through `philip.from_sql_cte(sql)`.
+  Each CTE becomes a Hamilton function; external tables become Driver
+  inputs. The result is a runnable, visualizable, type-checkable DAG
+  for a query that was previously a single 500-line blob.
+
+More sources land in subsequent minor releases: AWS Step Functions ASL,
+BPMN, dbt manifests, and additional DAG sources. Hamilton itself ships
+no `from_X` of its own; Burr ships no `from_X` of its own. Philip is
+the lift layer both substrates were missing.
 
 ```python
 import philip
@@ -32,6 +40,11 @@ last, _, state = app.run(halt_after=["done", "escalate"])
 
 report = philip.inspect("site.yml")
 print(report.rendered_markdown())
+
+# SQL with CTEs -> Hamilton module
+module = philip.from_sql_cte(open("query.sql").read())
+from hamilton.driver import Driver
+Driver({}, module).visualize_execution(["query"], output_file_path="dag.png")
 ```
 
 ## Why

@@ -16,7 +16,7 @@ def test_version_resolves() -> None:
 
 def test_public_exports_stable() -> None:
     # If anything in __all__ is removed or renamed, this catches it.
-    expected = {
+    expected_core = {
         "ActionFailureTopology",
         "DEFAULT_FACT_KEYS",
         "FAILURE_KINDS",
@@ -48,8 +48,14 @@ def test_public_exports_stable() -> None:
         "to_playbook",
         "wait_until",
     }
-    assert set(philip.__all__) == expected
-    for name in expected:
+    optional_hamilton = {"SqlCteLiftError", "SqlNode", "from_sql_cte"}
+    actual = set(philip.__all__)
+    # Core names must always be present; Hamilton lifters appear when the
+    # optional extra is installed.
+    assert expected_core.issubset(actual), f"missing core exports: {expected_core - actual}"
+    extras = actual - expected_core
+    assert extras.issubset(optional_hamilton), f"unexpected exports: {extras - optional_hamilton}"
+    for name in actual:
         assert hasattr(philip, name), name
 
 

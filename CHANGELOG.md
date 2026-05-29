@@ -6,6 +6,31 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-05-28
+
+### Added
+
+- First DAG lifter: ``philip.from_sql_cte(sql, *, dialect=None)`` lifts
+  a SQL query with Common Table Expressions into a Hamilton-compatible
+  Python module. Each CTE becomes a function whose parameter names
+  declare its CTE dependencies; external tables become Driver inputs.
+  Function bodies return a :class:`philip.SqlNode` carrying the
+  rewritten SQL fragment plus dependency metadata.
+- ``philip.SqlNode`` dataclass for synthesized node return values.
+- ``philip.SqlCteLiftError`` exception with clear messages for parse
+  failures, missing CTEs, ``WITH RECURSIVE``, and CTE names that are
+  not Python identifiers.
+- ``[hamilton]`` optional extra installs ``sf-hamilton`` and ``sqlglot``
+  for the DAG side of the library. Core install (Ansible + Mermaid)
+  pulls neither.
+
+### Documented
+
+- README opens with the dual-substrate framing explicitly: Burr (FSM)
+  and Hamilton (DAG), each with one source today, more on the roadmap.
+- The pitch line: "Hamilton itself ships no ``from_X``; Burr ships no
+  ``from_X``. Philip is the lift layer both substrates were missing."
+
 ## [1.1.0] - 2026-05-28
 
 ### Added

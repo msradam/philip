@@ -78,11 +78,7 @@ class MermaidLiftError(ValueError):
     """
 
     def __init__(self, message: str, *, line: str = "", line_number: int = 0) -> None:
-        full = (
-            f"line {line_number}: {message}\n  >>> {line.strip()}"
-            if line_number
-            else message
-        )
+        full = f"line {line_number}: {message}\n  >>> {line.strip()}" if line_number else message
         super().__init__(full)
         self.line = line
         self.line_number = line_number
