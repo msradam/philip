@@ -1,0 +1,465 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "leavitt-fsm-fixture",
+  "elements": [
+    {
+      "id": "s-receive_query",
+      "type": "rectangle",
+      "x": 240,
+      "y": 60,
+      "width": 240,
+      "height": 60,
+      "strokeColor": "#1971c2"
+    },
+    {
+      "id": "t-receive_query",
+      "type": "text",
+      "x": 250,
+      "y": 70,
+      "width": 220,
+      "height": 40,
+      "text": "receive_query",
+      "containerId": "s-receive_query",
+      "fontSize": 18
+    },
+    {
+      "id": "s-enumerate_sources",
+      "type": "rectangle",
+      "x": 240,
+      "y": 200,
+      "width": 240,
+      "height": 60,
+      "strokeColor": "#1971c2"
+    },
+    {
+      "id": "t-enumerate_sources",
+      "type": "text",
+      "x": 250,
+      "y": 210,
+      "width": 220,
+      "height": 40,
+      "text": "enumerate_sources",
+      "containerId": "s-enumerate_sources",
+      "fontSize": 18
+    },
+    {
+      "id": "s-query_grafana_metrics",
+      "type": "rectangle",
+      "x": 240,
+      "y": 340,
+      "width": 240,
+      "height": 60,
+      "strokeColor": "#1971c2"
+    },
+    {
+      "id": "t-query_grafana_metrics",
+      "type": "text",
+      "x": 250,
+      "y": 350,
+      "width": 220,
+      "height": 40,
+      "text": "query_grafana_metrics",
+      "containerId": "s-query_grafana_metrics",
+      "fontSize": 18
+    },
+    {
+      "id": "s-query_grafana_logs",
+      "type": "rectangle",
+      "x": 240,
+      "y": 480,
+      "width": 240,
+      "height": 60,
+      "strokeColor": "#1971c2"
+    },
+    {
+      "id": "t-query_grafana_logs",
+      "type": "text",
+      "x": 250,
+      "y": 490,
+      "width": 220,
+      "height": 40,
+      "text": "query_grafana_logs",
+      "containerId": "s-query_grafana_logs",
+      "fontSize": 18
+    },
+    {
+      "id": "s-query_client_load",
+      "type": "rectangle",
+      "x": 240,
+      "y": 620,
+      "width": 240,
+      "height": 60,
+      "strokeColor": "#1971c2"
+    },
+    {
+      "id": "t-query_client_load",
+      "type": "text",
+      "x": 250,
+      "y": 630,
+      "width": 220,
+      "height": 40,
+      "text": "query_client_load",
+      "containerId": "s-query_client_load",
+      "fontSize": 18
+    },
+    {
+      "id": "s-query_deployment_context",
+      "type": "rectangle",
+      "x": 240,
+      "y": 760,
+      "width": 240,
+      "height": 60,
+      "strokeColor": "#1971c2"
+    },
+    {
+      "id": "t-query_deployment_context",
+      "type": "text",
+      "x": 250,
+      "y": 770,
+      "width": 220,
+      "height": 40,
+      "text": "query_deployment_context",
+      "containerId": "s-query_deployment_context",
+      "fontSize": 18
+    },
+    {
+      "id": "s-correlate_evidence",
+      "type": "rectangle",
+      "x": 240,
+      "y": 900,
+      "width": 240,
+      "height": 60,
+      "strokeColor": "#1971c2"
+    },
+    {
+      "id": "t-correlate_evidence",
+      "type": "text",
+      "x": 250,
+      "y": 910,
+      "width": 220,
+      "height": 40,
+      "text": "correlate_evidence",
+      "containerId": "s-correlate_evidence",
+      "fontSize": 18
+    },
+    {
+      "id": "s-distill_evidence",
+      "type": "rectangle",
+      "x": 240,
+      "y": 1040,
+      "width": 240,
+      "height": 60,
+      "strokeColor": "#1971c2"
+    },
+    {
+      "id": "t-distill_evidence",
+      "type": "text",
+      "x": 250,
+      "y": 1050,
+      "width": 220,
+      "height": 40,
+      "text": "distill_evidence",
+      "containerId": "s-distill_evidence",
+      "fontSize": 18
+    },
+    {
+      "id": "s-form_hypothesis",
+      "type": "rectangle",
+      "x": 240,
+      "y": 1180,
+      "width": 240,
+      "height": 60,
+      "strokeColor": "#1971c2"
+    },
+    {
+      "id": "t-form_hypothesis",
+      "type": "text",
+      "x": 250,
+      "y": 1190,
+      "width": 220,
+      "height": 40,
+      "text": "form_hypothesis",
+      "containerId": "s-form_hypothesis",
+      "fontSize": 18
+    },
+    {
+      "id": "s-produce_report",
+      "type": "rectangle",
+      "x": 240,
+      "y": 1320,
+      "width": 240,
+      "height": 60,
+      "strokeColor": "#1971c2"
+    },
+    {
+      "id": "t-produce_report",
+      "type": "text",
+      "x": 250,
+      "y": 1330,
+      "width": 220,
+      "height": 40,
+      "text": "produce_report",
+      "containerId": "s-produce_report",
+      "fontSize": 18
+    },
+    {
+      "id": "a-0",
+      "type": "arrow",
+      "x": 360,
+      "y": 120,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          80
+        ]
+      ],
+      "startBinding": {
+        "elementId": "s-receive_query"
+      },
+      "endBinding": {
+        "elementId": "s-enumerate_sources"
+      }
+    },
+    {
+      "id": "a-1",
+      "type": "arrow",
+      "x": 360,
+      "y": 260,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          80
+        ]
+      ],
+      "startBinding": {
+        "elementId": "s-enumerate_sources"
+      },
+      "endBinding": {
+        "elementId": "s-query_grafana_metrics"
+      }
+    },
+    {
+      "id": "a-2",
+      "type": "arrow",
+      "x": 360,
+      "y": 400,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          80
+        ]
+      ],
+      "startBinding": {
+        "elementId": "s-query_grafana_metrics"
+      },
+      "endBinding": {
+        "elementId": "s-query_grafana_logs"
+      }
+    },
+    {
+      "id": "a-3",
+      "type": "arrow",
+      "x": 360,
+      "y": 540,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          80
+        ]
+      ],
+      "startBinding": {
+        "elementId": "s-query_grafana_logs"
+      },
+      "endBinding": {
+        "elementId": "s-query_client_load"
+      }
+    },
+    {
+      "id": "a-4",
+      "type": "arrow",
+      "x": 360,
+      "y": 680,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          80
+        ]
+      ],
+      "startBinding": {
+        "elementId": "s-query_client_load"
+      },
+      "endBinding": {
+        "elementId": "s-query_deployment_context"
+      }
+    },
+    {
+      "id": "a-5",
+      "type": "arrow",
+      "x": 360,
+      "y": 820,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          80
+        ]
+      ],
+      "startBinding": {
+        "elementId": "s-query_deployment_context"
+      },
+      "endBinding": {
+        "elementId": "s-correlate_evidence"
+      }
+    },
+    {
+      "id": "a-6",
+      "type": "arrow",
+      "x": 360,
+      "y": 1100,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          80
+        ]
+      ],
+      "startBinding": {
+        "elementId": "s-distill_evidence"
+      },
+      "endBinding": {
+        "elementId": "s-form_hypothesis"
+      }
+    },
+    {
+      "id": "a-7",
+      "type": "arrow",
+      "x": 360,
+      "y": 1240,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          80
+        ]
+      ],
+      "startBinding": {
+        "elementId": "s-form_hypothesis"
+      },
+      "endBinding": {
+        "elementId": "s-produce_report"
+      }
+    },
+    {
+      "id": "a-lbl-0",
+      "type": "arrow",
+      "x": 480,
+      "y": 930,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          120,
+          140
+        ],
+        [
+          0,
+          140
+        ]
+      ],
+      "startBinding": {
+        "elementId": "s-correlate_evidence"
+      },
+      "endBinding": {
+        "elementId": "s-distill_evidence"
+      }
+    },
+    {
+      "id": "t-a-lbl-0",
+      "type": "text",
+      "x": 500,
+      "y": 950,
+      "width": 100,
+      "height": 30,
+      "text": "ok",
+      "containerId": "a-lbl-0",
+      "fontSize": 16
+    },
+    {
+      "id": "a-lbl-1",
+      "type": "arrow",
+      "x": 480,
+      "y": 930,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          180,
+          0
+        ],
+        [
+          180,
+          -560
+        ],
+        [
+          0,
+          -560
+        ]
+      ],
+      "startBinding": {
+        "elementId": "s-correlate_evidence"
+      },
+      "endBinding": {
+        "elementId": "s-query_grafana_metrics"
+      }
+    },
+    {
+      "id": "t-a-lbl-1",
+      "type": "text",
+      "x": 500,
+      "y": 900,
+      "width": 100,
+      "height": 30,
+      "text": "need_more",
+      "containerId": "a-lbl-1",
+      "fontSize": 16
+    }
+  ],
+  "appState": {
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}
